@@ -1,9 +1,13 @@
 "use client"
 import { useEffect, useState } from "react"
-import { mockPhotos } from "@/util"
+import { Photo } from "@/types/entities"
 import { CardPhoto } from "../CardPhoto"
 
-export const GalleryPhotos = () => {
+interface GalleryPhotosProps {
+  photos: Photo[]
+}
+
+export const GalleryPhotos = ({ photos }: GalleryPhotosProps) => {
   const [columns, setColumns] = useState<keyof typeof gridColumns>(3)
 
   const gridColumns = {
@@ -12,18 +16,17 @@ export const GalleryPhotos = () => {
     3: "grid-cols-3",
   }
 
-  const positionPhotos = mockPhotos.reduce(
+  const positionPhotos = photos.reduce(
     (acc, curr, index) => {
       const colIndex = index % columns
       acc[colIndex] = acc[colIndex] ? [...acc[colIndex], curr] : [curr]
       return acc
     },
-    [] as (typeof mockPhotos)[],
+    [] as (typeof photos)[],
   )
 
   useEffect(() => {
     function updateColumns() {
-      console.log("sdasda")
       if (window.innerWidth < 768) {
         setColumns(1)
       } else if (window.innerWidth < 1024) {
@@ -41,7 +44,7 @@ export const GalleryPhotos = () => {
   return (
     <section
       data-columns={columns}
-      className={`m-auto grid h-auto w-full max-w-7xl ${gridColumns[columns]} items-start gap-x-16`}
+      className={`m-auto grid h-auto w-full max-w-7xl p-4 ${gridColumns[columns]} items-start gap-x-16`}
     >
       {positionPhotos.map((col, colIndex) => (
         <div key={colIndex} className="grid grid-cols-1 gap-y-5">

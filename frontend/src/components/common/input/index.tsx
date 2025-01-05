@@ -1,29 +1,13 @@
-import { ComponentProps, forwardRef, useId } from "react"
-import { UseFormRegisterReturn } from "react-hook-form"
-import { tv } from "tailwind-variants"
+import { InputHTMLAttributes, useId } from "react"
 
-type InputProps = ComponentProps<"input"> & {
+type InputProps = {
   label?: string
-  register?: UseFormRegisterReturn<string>
-  error?: boolean
-  fullWidth?: boolean
-}
+} & InputHTMLAttributes<HTMLInputElement>
 
-const input = tv({
-  base: "w-full rounded-md border border-zinc-800 bg-transparent px-5 py-3 text-white outline-none transition-all focus:border-primary active:border-primary",
-  variants: {
-    error: {
-      true: "ring-2 ring-red-500 focus:border-red-500 active:border-red-500",
-    },
-  },
-})
-export const Input = forwardRef<HTMLInputElement, InputProps>(function Input(
-  { className, register, error, fullWidth, ...props },
-  ref,
-) {
+export const Input = (props: InputProps) => {
   const id = useId()
   return (
-    <div className={`mb-4.5 ${fullWidth ? "w-full" : ""}`}>
+    <div className="mb-4.5 w-full">
       {props.label && (
         <label
           htmlFor={id}
@@ -33,13 +17,11 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(function Input(
         </label>
       )}
       <input
-        ref={ref}
+        className="w-full rounded-md border border-zinc-400 bg-transparent px-5 py-3 outline-none transition-all focus:border-zinc-600 active:border-zinc-600"
         id={id}
-        className={input({ className, error })}
         type="text"
         {...props}
-        {...register}
       />
     </div>
   )
-})
+}

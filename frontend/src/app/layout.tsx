@@ -1,12 +1,12 @@
 import React from "react"
 import { Inter } from "next/font/google"
 import { ToastContainer } from "react-toastify"
+import { Footer, Header } from "@/components/layout"
 import { ReactQueryProvider } from "@/providers/ReactQuery"
 import type { Metadata } from "next"
 
 import "./globals.css"
 import "react-toastify/dist/ReactToastify.css"
-import { Header } from "@/components/layout"
 
 const inter = Inter({
   subsets: ["latin"],
@@ -29,6 +29,7 @@ export default async function RootLayout({
       <body className={inter.className}>
         <Header />
         <ReactQueryProvider>{children}</ReactQueryProvider>
+        <Footer />
         <ToastContainer />
       </body>
     </html>
