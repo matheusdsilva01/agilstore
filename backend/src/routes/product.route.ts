@@ -6,7 +6,7 @@ import { z } from 'zod'
 export async function productRoutes(server: FastifyInstance) {
     const productController = new ProductControllerImpl()
 
-    server.post<{ Body: CreateProductPayload }>('/', async (req, res) => {
+    server.post<{ Body: CreateProductPayload }>('/', (req, res) => {
         const { category, name, price, stock } = req.body
         // const categoryController = new CategoryControllerImpl()
 
@@ -22,7 +22,7 @@ export async function productRoutes(server: FastifyInstance) {
             if (!body.success) {
                 throw new Error('Invalid params')
             }
-            const data = await productController.create({
+            const data = productController.create({
                 category,
                 name,
                 price,
@@ -31,26 +31,26 @@ export async function productRoutes(server: FastifyInstance) {
             return res.status(201).send(data)
         } catch (error) {
             if (error instanceof Error) {
-                return res.status(404).send({ message: error.message })
+                return res.status(400).send({ message: error.message })
             }
             return res.status(500).send({ message: 'Something error has occurred' })
         }
     })
 
-    server.get('/', async (_req, res) => {
+    server.get('/', (_req, res) => {
         try {
-            const data = await productController.list()
+            const data = productController.list()
             return res.status(200).send(data)
         } catch (error) {
             if (error instanceof Error) {
-                return res.status(404).send({ message: error.message })
+                return res.status(400).send({ message: error.message })
             }
             return res.status(500).send({ message: 'Something error has occurred' })
         }
     })
     
     server.put<{ Body: UpdateProductPayload
-        Params: { id: string } }>('/:id', async (req, res) => {
+        Params: { id: string } }>('/:id', (req, res) => {
         const productId = req.params.id
         const schema = z.object({
             name: z.string().min(1).optional(),
@@ -65,7 +65,7 @@ export async function productRoutes(server: FastifyInstance) {
             if (!productId) {
                 throw new Error('Invalid ID product')
             }
-            const product = await productController.getById(productId)
+            const product = productController.getById(productId)
 
             if (!product) {
                 throw new Error(`Product with id: '${productId}', not exists`)
@@ -73,7 +73,7 @@ export async function productRoutes(server: FastifyInstance) {
             if (!body.success) {
                 throw new Error('Invalid params')
             }
-            const data = await productController.update(productId, {
+            const data = productController.update(productId, {
                 ...product,
                 ...body.data
             })
@@ -86,17 +86,17 @@ export async function productRoutes(server: FastifyInstance) {
         }
     })
 
-    server.delete<{ Params: { id: string } }>('/:id', async (req, res) => {
+    server.delete<{ Params: { id: string } }>('/:id', (req, res) => {
         const productId = req.params.id
         try {
             if (!productId) {
                 throw new Error('ID product has required')
             }
-            const product = await productController.getById(productId)
+            const product = productController.getById(productId)
             if (!product) {
                 throw new Error(`The product with id: ${productId} not exists`)
             }
-            await productController.delete(productId)
+            productController.delete(productId)
             return res.send({ message: 'ok' })
         } catch (error) {
             if (error instanceof Error) {
@@ -106,13 +106,13 @@ export async function productRoutes(server: FastifyInstance) {
         }
     })
 
-    server.get<{ Params: { search: string } }>('/:search', async (req, res) => {
+    server.get<{ Params: { search: string } }>('/:search', (req, res) => {
         const search = req.params.search
         try {
             if (!search) {
                 throw new Error('Search filter has required')
             }
-            const data = await productController.get(search)
+            const data = productController.get(search)
             if (!data) {
                 throw new Error('Nothing products found')
             }

@@ -1,35 +1,35 @@
 import { CreateProductPayload, Product, ProductController, UpdateProductPayload } from 'interfaces'
 import { ProductRepositoryDB } from 'repositories/product.repository'
-import { ProductUseCase } from 'usecases'
+import { ProductUseCaseImpl } from 'usecases'
 
 export class ProductControllerImpl implements ProductController {
-    private productUseCase: ProductUseCase
+    private productUseCase: ProductUseCaseImpl
 
     constructor() {
-        this.productUseCase = new ProductUseCase(new ProductRepositoryDB())
+        this.productUseCase = new ProductUseCaseImpl(new ProductRepositoryDB())
     }
 
-    async create(payload: CreateProductPayload): Promise<Product> {
+    create(payload: CreateProductPayload) {
         return this.productUseCase.create(payload)
     }
 
-    async list(): Promise<Product[]> {
+    list(): Product[] {
         return this.productUseCase.list()
     }
 
-    async getById(id: string): Promise<Product | undefined> {
+    getById(id: string): Product | undefined {
         return this.productUseCase.get(id)
     }
 
-    async update(id: string, payload: UpdateProductPayload): Promise<Product | null> {
+    update(id: string, payload: UpdateProductPayload): Product | null {
         return this.productUseCase.update(id, payload)
     }
 
-    async delete(id: string): Promise<void> {
+    delete(id: string): void {
         return this.productUseCase.delete(id)
     }
 
-    async get(search: string): Promise<Product | undefined> {
+    get(search: string): Product | undefined {
         return this.productUseCase.get(search)
     } 
 }

@@ -20,20 +20,29 @@ export type UpdateProductPayload = {
     category?: string
 }
 
+export interface ProductUseCase {
+    create(payload: CreateProductPayload): Product
+    list(): Product[]
+    get(search: string): Product | undefined
+    getById(id: string): Product | null
+    update(id: string, payload: UpdateProductPayload): Product | null
+    delete(id: string): void
+}
+
 export interface ProductRepository {
-    create(payload: CreateProductPayload): Promise<Product>
-    list(): Promise<Product[]>
-    get(search: string): Promise<Product | undefined>
-    getById(id: string): Promise<Product | null>
-    update(id: string, payload: UpdateProductPayload): Promise<Product | null>
-    delete(id: string): Promise<void>
+    create(payload: CreateProductPayload): Product
+    list(): Product[]
+    get(search: string): Product | undefined
+    getById(id: string): Product | null
+    update(id: string, payload: UpdateProductPayload): Product | null
+    delete(id: string): void
 }
 
 export interface ProductController {
-    create(payload: CreateProductPayload): Promise<Product>
-    list(): Promise<Product[]>
-    getById(id: string): Promise<Product | undefined>
-    update(id: string, payload: CreateProductPayload): Promise<Product | null>
-    delete(id: string): Promise<void>
-    get(search: string): Promise<Product | undefined>
+    create(payload: CreateProductPayload): Product
+    list(): Product[]
+    getById(id: string): Product | undefined
+    update(id: string, payload: CreateProductPayload): Product | null
+    delete(id: string): void
+    get(search: string): Product | undefined
 }

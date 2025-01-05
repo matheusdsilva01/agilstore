@@ -1,33 +1,33 @@
-import { CreateProductPayload, Product, ProductRepository, UpdateProductPayload } from 'interfaces'
+import { CreateProductPayload, Product, ProductRepository, ProductUseCase, UpdateProductPayload } from 'interfaces'
 
-export class ProductUseCase {
+export class ProductUseCaseImpl implements ProductUseCase {
     private productRepository: ProductRepository
 
     constructor(productRepository: ProductRepository) {
         this.productRepository = productRepository
     }
 
-    async create(payload: CreateProductPayload): Promise<Product> {
+    create(payload: CreateProductPayload): Product {
         return this.productRepository.create(payload)
     }
 
-    async list(): Promise<Product[]> {
+    list(): Product[] {
         return this.productRepository.list()
     }
     
-    async getById(id: string): Promise<Product | null> {
+    getById(id: string): Product | null {
         return this.productRepository.getById(id)
     }
 
-    async get(search: string): Promise<Product | undefined> {
+    get(search: string): Product | undefined {
         return this.productRepository.get(search)
     }
 
-    async update(id: string, payload: UpdateProductPayload): Promise<Product | null> {
+    update(id: string, payload: UpdateProductPayload): Product | null {
         return this.productRepository.update(id, payload)
     }
 
-    async delete(id: string): Promise<void> {
+    delete(id: string): void {
         return this.productRepository.delete(id)
     }
 }

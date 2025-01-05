@@ -4,11 +4,11 @@ import { CreateProductPayload, Product, ProductRepository } from 'interfaces'
 
 export class ProductRepositoryDB implements ProductRepository {
 
-    async get(search: string): Promise<Product | undefined> {
+    get(search: string): Product | undefined {
         return db.products.find(product => product.id === search || product.name.toLowerCase().includes(search.toLowerCase()))       
     }
 
-    async create(payload: CreateProductPayload): Promise<Product> {
+    create(payload: CreateProductPayload): Product {
         const newProduct: Product = {
             id: randomUUID(),
             name: payload.name,
@@ -20,7 +20,7 @@ export class ProductRepositoryDB implements ProductRepository {
         return newProduct
     }
 
-    async getById(id: string): Promise<Product | null> {
+    getById(id: string): Product | null {
         const category = db.category
         const product = db.products.find(product => product.id === id)
         if (!product) {
@@ -32,7 +32,7 @@ export class ProductRepositoryDB implements ProductRepository {
         }
     }
 
-    async update(id: string, payload: CreateProductPayload): Promise<Product | null> {
+    update(id: string, payload: CreateProductPayload): Product | null {
         const productIndex = db.products.findIndex(product => product.id === id)
         if (productIndex === -1) {
             return null
@@ -50,14 +50,14 @@ export class ProductRepositoryDB implements ProductRepository {
         return updatedProduct
     }
 
-    async delete(id: string): Promise<void> {
+    delete(id: string): void {
         const productIndex = db.products.findIndex(product => product.id === id)
         if (productIndex !== -1) {
             db.products.splice(productIndex, 1)
         }
     }
 
-    async list(): Promise<Product[]> {
+    list(): Product[] {
         const category = db.category
         return db.products.map(product => ({
             ...product,
