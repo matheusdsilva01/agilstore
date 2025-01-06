@@ -3,16 +3,12 @@ import { useState } from "react"
 import { Search } from "lucide-react"
 import { Input } from "@/components/common"
 import { GalleryPhotos } from "@/components/ui"
-import { useGetPhotos } from "@/hooks/requests/useGetPhotos"
 
 const Home = () => {
   const [search, setSearch] = useState("")
-  const { data, isSuccess } = useGetPhotos({
-    search,
-  })
 
   return (
-    <div className="flex h-full w-full flex-col p-2 md:p-4">
+    <div className="flex h-full w-full flex-1 flex-col p-2 md:p-4">
       <form
         className="flex gap-4"
         onSubmit={e => {
@@ -31,14 +27,7 @@ const Home = () => {
           <Search size={24} />
         </button>
       </form>
-      {!!data && (
-        <GalleryPhotos photos={data instanceof Array ? data : data.results} />
-      )}
-      {isSuccess && !data && (
-        <p className="my-4 text-center text-xl font-bold">
-          Nenhuma foto encontrada
-        </p>
-      )}
+      <GalleryPhotos search={search} />
     </div>
   )
 }

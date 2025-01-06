@@ -25,6 +25,17 @@ export interface Photo {
   }
   promoted_at: Nullable<string>
   width: number
+  slug: string
+  alternative_slugs: {
+    en: string
+    es: string
+    ja: string
+    fr: string
+    it: string
+    ko: string
+    de: string
+    pt: string
+  }
 }
 
 export interface Response<A> {

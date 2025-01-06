@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 body {
-  @apply bg-zinc-50 text-zinc-950; 
+  @apply bg-zinc-50 text-zinc-950 flex flex-col; 
   min-height: 100dvh;
   height: 100%;
 }

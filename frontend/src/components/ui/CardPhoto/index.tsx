@@ -1,21 +1,22 @@
 import React from "react"
 import Image from "next/image"
+import { Photo } from "@/types/entities"
 
 interface CardPhotoProps {
-  photo: any
+  photo: Photo
 }
 
 export const CardPhoto = ({ photo }: CardPhotoProps) => {
   return (
     <div className="overflow-hidden rounded-md transition-all hover:scale-110 hover:shadow-lg">
       <Image
-        className="h-auto w-full"
+        className="h-auto min-h-[150px] w-full"
         src={photo.urls.raw}
-        alt={photo.alt_description}
-        width={photo.width}
-        height={photo.width}
+        alt={photo.alt_description || photo.description || photo.slug}
+        width={574}
+        height={574}
       />
-      <h3 className="bg-zinc-300 px-2 text-sm">
+      <h3 className="bg-zinc-300 px-2 py-1 text-xs md:text-sm">
         {photo.alternative_slugs.pt
           .replace(photo.id, "")
           .split("-")
