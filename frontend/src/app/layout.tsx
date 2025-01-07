@@ -14,8 +14,8 @@ const inter = Inter({
 })
 
 export const metadata: Metadata = {
-  title: "",
-  description: "",
+  title: "Galeria de Fotos",
+  description: "Galeria de fotos com Next.js e Tailwind CSS",
 }
 
 export default async function RootLayout({

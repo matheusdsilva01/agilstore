@@ -13,11 +13,12 @@ async function getPhotos({
   search,
 }: useGetPhotosProps): Promise<AxiosResponse<Photo[] | Response<Photo>, any>> {
   const clientId = process.env.NEXT_PUBLIC_UNSPLASH_ACCESS_KEY
+  const perPage = 25
 
   if (!search) {
     const response = await api.get<Photo[]>("/photos", {
       params: {
-        per_page: 10,
+        per_page: perPage,
         page: pageParam,
         client_id: clientId,
       },
@@ -27,7 +28,7 @@ async function getPhotos({
   const response = await api.get<Response<Photo>>("/search/photos", {
     params: {
       query: search,
-      per_page: 10,
+      per_page: perPage,
       page: pageParam,
       client_id: clientId,
       lang: "pt",
