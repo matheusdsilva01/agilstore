@@ -10,8 +10,8 @@ export const CardPhoto = ({ photo }: CardPhotoProps) => {
   return (
     <div className="overflow-hidden rounded-md transition-all hover:scale-110 hover:shadow-lg">
       <Image
-        className="h-auto min-h-[150px] w-full"
-        src={photo.urls.raw}
+        className="h-auto min-h-[120px] w-full"
+        src={photo.urls.regular}
         alt={photo.alt_description || photo.description || photo.slug}
         width={574}
         height={574}

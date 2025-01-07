@@ -4,18 +4,15 @@ import { api } from "@/api"
 import { Photo, Response } from "@/types/entities"
 
 interface useGetPhotosProps {
-  search?: string
+  search: string
+  pageParam: number
 }
 
-async function fetcher({
+async function getPhotos({
   pageParam,
   search,
-}: {
-  pageParam: number
-  search?: string
-}): Promise<AxiosResponse<Photo[] | Response<Photo>, any>> {
+}: useGetPhotosProps): Promise<AxiosResponse<Photo[] | Response<Photo>, any>> {
   const clientId = process.env.NEXT_PUBLIC_UNSPLASH_ACCESS_KEY
-  await new Promise(resolve => setTimeout(resolve, 3000))
 
   if (!search) {
     const response = await api.get<Photo[]>("/photos", {
@@ -38,7 +35,8 @@ async function fetcher({
   })
   return response
 }
-export function useGetPhotos({ search }: useGetPhotosProps) {
+
+export function useGetPhotos({ search }: Omit<useGetPhotosProps, "pageParam">) {
   return useInfiniteQuery<
     AxiosResponse<Response<Photo> | Photo[], any>,
     Error,
@@ -69,6 +67,6 @@ export function useGetPhotos({ search }: useGetPhotosProps) {
     },
     initialPageParam: 1,
     queryFn: async ({ pageParam }) =>
-      await fetcher({ pageParam: pageParam as number, search }),
+      await getPhotos({ pageParam: pageParam, search }),
   })
 }
