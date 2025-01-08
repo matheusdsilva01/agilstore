@@ -1,4 +1,4 @@
-import { CreateProductPayload, Product, ProductRepository, ProductUseCase, UpdateProductPayload } from 'interfaces'
+import { CreateProductPayload, ListFilters, Product, ProductRepository, ProductUseCase, UpdateProductPayload } from 'interfaces'
 
 export class ProductUseCaseImpl implements ProductUseCase {
     private productRepository: ProductRepository
@@ -11,8 +11,8 @@ export class ProductUseCaseImpl implements ProductUseCase {
         return this.productRepository.create(payload)
     }
 
-    list(): Product[] {
-        return this.productRepository.list()
+    list(filters: ListFilters): Product[] {
+        return this.productRepository.list(filters)
     }
     
     getById(id: string): Product | null {
