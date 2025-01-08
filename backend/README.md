@@ -32,6 +32,11 @@ npm install
 npm run dev
 ```
 
+## Coleção para Postman da API
+Você pode importar a coleção da API no Postman importando o arquivo `AgilStore.postman_collection.json` que está na raiz do projeto. [Clique aqui para visualizar o arquivo](./AgilStore.postman_collection.json)\
+A coleção contém as rotas da API com exemplos de requisições.
+
+
 ## Scripts Disponíveis
 
 No diretório do projeto, você pode executar:
