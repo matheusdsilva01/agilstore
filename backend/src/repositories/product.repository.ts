@@ -1,15 +1,17 @@
 import { randomUUID } from 'node:crypto'
-import { db } from 'database/db'
 import { CreateProductPayload, ListFilters, Product, ProductRepository } from 'interfaces'
+import { getDatabaseData, writeJsonDB } from 'utils'
 
 export class ProductRepositoryDB implements ProductRepository {
     get(search: string): Product | undefined {
-        const products = db.products
+        const database = getDatabaseData()
+        const products = database.products
         return products.find(product => product.id === search || product.name.toLowerCase().includes(search.toLowerCase()))       
     }
 
     create(payload: CreateProductPayload): Product {
-        const products = db.products
+        const database = getDatabaseData()
+        const products = database.products
 
         const newProduct: Product = {
             id: randomUUID(),
@@ -20,11 +22,16 @@ export class ProductRepositoryDB implements ProductRepository {
             created_at: new Date().toISOString()
         }
         products.push(newProduct)
+        writeJsonDB({
+            ...database,
+            products
+        })
         return newProduct
     }
     
     getById(id: string): Product | null {
-        const products = db.products
+        const database = getDatabaseData()
+        const products = database.products
 
         const product = products.find(product => product.id === id)
         if (!product) {
@@ -34,7 +41,8 @@ export class ProductRepositoryDB implements ProductRepository {
     }
 
     update(id: string, payload: CreateProductPayload): Product | null {
-        const products = db.products
+        const database = getDatabaseData()
+        const products = database.products
 
         const productIndex = products.findIndex(product => product.id === id)
         if (productIndex === -1) {
@@ -49,22 +57,33 @@ export class ProductRepositoryDB implements ProductRepository {
             stock: payload.stock,
             created_at: products[productIndex].created_at
         }
-        db.products[productIndex] = updatedProduct
+        products[productIndex] = updatedProduct
+
+        writeJsonDB({
+            ...database,
+            products
+        })
         
         return updatedProduct
     }
 
     delete(id: string): void {
-        const products = db.products
+        const database = getDatabaseData()
+        const products = database.products
 
         const productIndex = products.findIndex(product => product.id === id)
         if (productIndex !== -1) {
-            db.products.splice(productIndex, 1)
+            products.splice(productIndex, 1)
         }
+        writeJsonDB({
+            ...database,
+            products
+        })
     }
 
     list(filters: ListFilters): Product[] {
-        const products = db.products
+        const products = getDatabaseData().products
+
         switch (filters.orderBy) {
             case 'name':
                 products.sort((a, b) => {

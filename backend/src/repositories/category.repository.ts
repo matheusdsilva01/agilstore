@@ -1,9 +1,10 @@
-import { db } from 'database/db'
+import { getDatabaseData } from 'utils'
 import { Category, CategoryRepository } from 'interfaces'
 
 export class CategoryRepositoryDB implements CategoryRepository {
     getById(id: string): Category | null {
-        const categories = db.category
+        const database = getDatabaseData()
+        const categories = database.category
         const category = categories.find(cat => cat.id === id)
         if (!category) {
             return null
@@ -12,7 +13,8 @@ export class CategoryRepositoryDB implements CategoryRepository {
     }
 
     getByName(name: string): Category | null {
-        const categories = db.category
+        const database = getDatabaseData()
+        const categories = database.category
         const category = categories.find(cat => cat.name === name)
         if (!category) {
             return null
