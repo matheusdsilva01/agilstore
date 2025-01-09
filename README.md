@@ -15,14 +15,12 @@ Para visualizar o projeto localmente, siga as instruções abaixo.
 
 1. Clone o repositório:
 ```bash
-git clone https://github.com/matheusdsilva01/aceleradora.git
+git clone https://github.com/matheusdsilva01/agilstore.git
 ```
 
-2. Acesse o diretório do projeto frontend e instale as dependências: 
+2. Instale as dependências: 
 
 ```bash
-cd aceleradora
-cd backend
 npm install
 ```
 
